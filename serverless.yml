@@ -1,5 +1,5 @@
 # NOTE: update this with your service name
-service: buddy
+service: buddy-api
 
 # Create an optimized package for our functions 
 package:
@@ -19,12 +19,39 @@ provider:
   # the following line. Also, make sure to not
   # commit your env.yml.
   #
-  #environment: ${file(env.yml):${self:provider.stage}}
+  environment:
+    animalTableName: ${self:custom.animalTableName}
+  iamRoleStatements:
+    - Effect: allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
 
-functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: hello
-          method: get
+      # Restrict our IAM role permissions to
+      # the specific table for the stage
+      Resource:
+        - "Fn::GetAtt": [ AnimalsTable, Arn ]
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  animalTableName: ${self:custom.stage}-animals
+  tableThroughputs:
+    prod: 5
+    default: 1
+  tableThroughput: ${self:custom.tableThroughputs.${self:custom.stage}, self:custom.tableThroughputs.default}
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+resources:
+  #DynamoDb
+  - ${file(resources/dynamo-table.yml)}
+  #S3
+  - ${file(resources/s3-bucket.yml)}
+  #Cognito
+  - ${file(resources/cognito-user-pool.yml)}
+  - ${file(resources/cognito-identity-pool.yml)}
