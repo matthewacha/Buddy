@@ -2,7 +2,7 @@ Resources:
   AnimalTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: ${sel:custom.animalTableName}
+      TableName: ${self:custom.animalTableName}
       AttributeDefinitions:
         - AttributeName: userId
           AttributeType: S
