@@ -61,6 +61,9 @@ resources:
   #lambda
   - ${file(resources/lambda-role.yml)}
 
+  #api gateway
+  - ${file(resources/api-getway-errors.yml)}
+
 functions:
   createAnimal:
     handler: src/animals/create.post
