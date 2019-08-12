@@ -2,8 +2,8 @@ Resources:
   AttachmentsBucket:
     Type: AWS::S3::Bucket
     Properties:
-    CorsConfiguration:
-      CorsRules:
+      CorsConfiguration:
+        CorsRules:
         -
           AllowedOrigins:
             - '*'

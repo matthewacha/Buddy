@@ -1,0 +1,8 @@
+{
+    "body": "{\"attachment\": \"data.attachment\",\"name\": \"Champ\",\"superpower\": \"sleeping\",\"breed\": \"terrier\",\"type\": \"dog\",\"birthday\": \"02-02-2015\"}",
+    "requestContext": {
+        "identity": {
+            "cognitoIdentityId": "TRY-USER-2345"
+        }
+    }
+}
